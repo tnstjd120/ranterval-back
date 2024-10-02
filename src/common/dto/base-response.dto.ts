@@ -10,7 +10,7 @@ export class BaseResponse {
     @ApiProperty()
     message: string | null;
 
-    constructor(success: boolean, code: number = 0, message: string | null = null) {
+    constructor(success: boolean = true, code: number = 0, message: string | null = null) {
         this.success = success;
         this.code = code;
         this.message = message;
