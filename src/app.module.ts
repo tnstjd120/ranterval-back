@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { loadConfig } from './common/util/config.util';
 import { googleStrategy } from './auth/jwt-oauth-strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './redis/redis-module';
 
 

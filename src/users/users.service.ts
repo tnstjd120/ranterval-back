@@ -4,7 +4,6 @@ import { CustomErrorCode } from 'src/common/exceptions/custom-error-code.enum';
 import { EntityManager } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { googleStrategy } from 'src/auth/jwt-oauth-strategy';
 import { Response } from 'express';
 

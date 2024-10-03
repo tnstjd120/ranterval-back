@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { JwtModule } from '@nestjs/jwt';
 import { RedisModule } from 'src/redis/redis-module';
 import { googleStrategy } from 'src/auth/jwt-oauth-strategy';
 import { AuthModule } from 'src/auth/auth.module';
