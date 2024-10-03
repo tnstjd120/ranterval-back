@@ -5,9 +5,9 @@ import { JwtStrategy } from './jwt.strategy';
 @Module({
   imports: [JwtModule.register({
     secret: process.env.JWT_SECRET,
-    signOptions: { expiresIn: '12h' },
+    signOptions: { expiresIn: '24h' },
   })],
   providers: [JwtStrategy],
-  exports: [JwtStrategy],
+  exports: [JwtModule,JwtStrategy],
 })
 export class AuthModule {}

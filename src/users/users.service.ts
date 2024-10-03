@@ -1,5 +1,4 @@
-import { Inject, Injectable, Res } from '@nestjs/common';
-import { BaseResponse } from 'src/common/dto/base-response.dto';
+import { Inject, Injectable } from '@nestjs/common';
 import { CustomException } from 'src/common/exceptions/custom.exception';
 import { CustomErrorCode } from 'src/common/exceptions/custom-error-code.enum';
 import { EntityManager } from 'typeorm';
@@ -7,7 +6,6 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { googleStrategy } from 'src/auth/jwt-oauth-strategy';
-import { LoginUserResponse } from './dto/login-user.dto';
 import { Response } from 'express';
 
 @Injectable()
@@ -16,7 +14,6 @@ export class UsersService {
     @Inject('REDIS_CLIENT') private readonly redisClient,
     @InjectEntityManager() private readonly entityManager: EntityManager,
     private readonly jwtService: JwtService,
-    private readonly jwtStrategy: JwtStrategy,
     private readonly googleStrategy: googleStrategy 
   ) {}
 

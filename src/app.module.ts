@@ -4,7 +4,6 @@ import { googleStrategy } from './auth/jwt-oauth-strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from './users/users.module';
-import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -29,15 +28,10 @@ loadConfig(process.env.NODE_ENV);
         bigNumberStrings: false,
       }
     }),
-    ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     RedisModule,
-    AuthModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '12h' },
-    }),],
-  controllers: [UsersController],
+    AuthModule],
+  controllers: [],
   providers: [
     UsersService,
     googleStrategy
