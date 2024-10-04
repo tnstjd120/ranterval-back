@@ -39,7 +39,7 @@ export class UsersController {
     return this.usersService.accessReIssue(accessReIssueDto);
   }
 
-  // 사용자 정보 수정
+  // 사용자 정보 조회
   @Get(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '사용자 정보 조회' })
