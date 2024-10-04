@@ -22,6 +22,7 @@ async function bootstrap() {
     .setTitle('ranterval.API')
     .setDescription('ranterval-back')
     .setVersion('1.0')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

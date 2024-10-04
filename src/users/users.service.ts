@@ -125,6 +125,37 @@ export class UsersService {
       message: null,
       accessToken: id_token
     }
+  }
 
+  async editUserInfo(editUserInfoDto: any, id: number) {
+    const { email, nickName, phone, aboutMe }= editUserInfoDto;
+
+    const userCheckQuery = `SELECT COUNT(*) as count FROM users WHERE id = ?`;
+    const result = await this.entityManager.query(userCheckQuery, [id]);
+    
+    if (result[0].count === 0) throw new CustomException(CustomErrorCode.NO_RESULT, '유저를 찾을 수 없습니다.');
+
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    if (!emailPattern.test(email)) throw new CustomException(CustomErrorCode.EMAIL_INVALID, '이메일 형식이 맞지않습니다.');
+
+    if (nickName.length < 2 || nickName.length > 30) throw new CustomException(CustomErrorCode.NICKNAME_TOO_LONG, '닉네임은 2자 이상 30자 이하여야합니다.');
+
+    if (phone.length > 12) throw new CustomException(CustomErrorCode.PHONE_TOO_LONG, '핸드폰번호는 12자 이하여야합니다.');
+
+    const editUserInfoQuery = `
+                                UPDATE users
+                                    SET email = ?
+                                      , nickName = ?
+                                      , phone = ?
+                                      , aboutMe = ?
+                                  WHERE id = ?
+                              `
+    await this.entityManager.query(editUserInfoQuery, [email, nickName, phone, aboutMe, id]);
+
+    return {
+      success: true,
+      code: 0,
+      message: null
+    }
   }
 }
