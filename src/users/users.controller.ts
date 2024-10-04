@@ -4,6 +4,7 @@ import { UsersService } from './users.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginUserResponse } from './dto/login-user.dto'
+import { AccessReIssueDto } from './dto/reissue-access.dto';
 
 @ApiTags('users')
 @Controller('/users')
@@ -20,5 +21,12 @@ export class UsersController {
   @ApiResponse({type: LoginUserResponse})
   async googleLogin(@Query('code') code: string, @Res() res: Response) {
     return this.usersService.googleLogin(code, res);
+  }
+
+  // access 토큰 재발급
+  @Post('refresh')
+  @ApiResponse({type: LoginUserResponse})
+  async accessReIssue(@Body() accessReIssueDto: AccessReIssueDto) {
+    return this.usersService.accessReIssue(accessReIssueDto);
   }
 }

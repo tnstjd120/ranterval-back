@@ -32,14 +32,6 @@ export class googleStrategy extends PassportStrategy(GoogleStrategy, 'google') {
     }
   }
 
-  // access_type을 offline으로 설정하여 refresh_token을 요청
-  authorizationParams(): { [key: string]: string } {
-    return {
-      access_type: 'offline',
-      prompt: 'consent',
-    };
-  }
-
   // 구글로부터 받은 code로 access_token과 refresh_token을 요청
   async requestTokens(code: string): Promise<any> {
     const url = 'https://oauth2.googleapis.com/token';
@@ -65,7 +57,7 @@ export class googleStrategy extends PassportStrategy(GoogleStrategy, 'google') {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-
+      
       const { access_token, refresh_token, id_token } = response.data;
 
       // access_token을 사용하여 사용자 정보를 가져오기
@@ -90,5 +82,37 @@ export class googleStrategy extends PassportStrategy(GoogleStrategy, 'google') {
       accessToken,
       refreshToken, 
     };
+  }
+
+  async refreshReIssue(refreshToken: string): Promise<any> {
+    const url = 'https://oauth2.googleapis.com/token';
+
+    const client_id = process.env.GOOGLE_AUTH_CLIENT;
+    const client_secret = process.env.GOOGLE_AUTH_SECRET;
+
+    if (!client_id || !client_secret) {
+      throw new Error('Google OAuth credentials are missing');
+    }
+
+    const values: Record<string, string> = {
+      client_id,
+      client_secret,
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token'
+    };
+
+    try {
+      const response = await axios.post(url, new URLSearchParams(values), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      const { access_token, id_token } = response.data;
+
+      return { access_token, id_token };
+    } catch (error) {
+      throw new Error('Failed to fetch tokens or user info');
+    }
   }
 }
