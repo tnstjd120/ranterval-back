@@ -24,7 +24,8 @@ loadConfig(process.env.NODE_ENV);
       extra: {
         supportBigNumbers: true,
         bigNumberStrings: false,
-      }
+      },
+      timezone: 'Asia/Seoul',
     }),
     UsersModule,
     RedisModule,

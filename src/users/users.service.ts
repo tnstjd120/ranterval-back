@@ -26,6 +26,7 @@ export class UsersService {
       if (!code) throw new CustomException(CustomErrorCode.INVALID_REQUEST_NULL, "Request is null.");
 
       const { id_token, refresh_token, userInfo } = await this.googleStrategy.requestTokens(code);
+      console.log(id_token)
       let userId;
 
       const existUserQuery = `
@@ -124,6 +125,25 @@ export class UsersService {
       code: 0,
       message: null,
       accessToken: id_token
+    }
+  }
+
+  async getUserInfo(id: number) {
+    const userCheckQuery = `SELECT COUNT(*) as count FROM users WHERE id = ?`;
+    const result = await this.entityManager.query(userCheckQuery, [id]);
+    
+    if (result[0].count === 0) throw new CustomException(CustomErrorCode.NO_RESULT, '유저를 찾을 수 없습니다.');
+
+    const getUserInfoQuery = `
+                                SELECT * FROM users WHERE id = ?
+                             `
+    const userInfo = await this.entityManager.query(getUserInfoQuery, [id]);
+
+    return {
+      success: true,
+      code: 0,
+      message: null,
+      userInfo: userInfo
     }
   }
 

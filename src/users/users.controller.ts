@@ -8,6 +8,7 @@ import { AccessReIssueDto } from './dto/reissue-access.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BaseResponse } from 'src/common/dto/base-response.dto';
 import { EditUserInfoDto } from './dto/edit-userInfo.dto';
+import { UserInfoResponse } from './dto/get-userInfo.dto';
 
 @ApiTags('users')
 @Controller('/users')
@@ -36,6 +37,16 @@ export class UsersController {
   @ApiResponse({type: LoginUserResponse})
   async accessReIssue(@Body() accessReIssueDto: AccessReIssueDto) {
     return this.usersService.accessReIssue(accessReIssueDto);
+  }
+
+  // 사용자 정보 수정
+  @Get(':id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '사용자 정보 조회' })
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({type: UserInfoResponse})
+  async getUserInfo(@Param('id') id: number) {
+    return this.usersService.getUserInfo(id);
   }
 
   // 사용자 정보 수정
